@@ -4,12 +4,16 @@ import de.pdieteri.bookroom.media.entity.BookEntity;
 import de.pdieteri.bookroom.shared.BookStatus;
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
 
+import javax.enterprise.context.ApplicationScoped;
+import java.util.List;
 import java.util.Optional;
 
+
+@ApplicationScoped
 public class BookRepository implements PanacheRepository<BookEntity> {
 
-    public BookEntity getAll(){
-        return find("select b from BookEntity b").firstResult();
+    public List<BookEntity> getAll(){
+        return listAll();
     }
 
     public BookEntity getById(Long id){
@@ -38,17 +42,14 @@ public class BookRepository implements PanacheRepository<BookEntity> {
        }
        return Optional.empty();
     }
-    public Optional<BookEntity> borrow(Long id){
-        BookEntity bookEntity = getById(id);
-        bookEntity.setStatus(BookStatus.BORROWED);
-        persist(bookEntity);
-        return Optional.ofNullable(bookEntity);
-    }
 
-    public Optional<BookEntity> ChangeStatus(BookEntity book, BookStatus status) {
-        BookEntity bookEntity = getById(book.getId());
-        bookEntity.setStatus(status);
-        persist(bookEntity);
+    public Optional<BookEntity> changeStatus(BookEntity book, BookStatus status) {
+        BookEntity bookEntity = findById(book.getId());
+        if(bookEntity != null){
+            bookEntity.setStatus(status);
+            persist(bookEntity);
+            return Optional.of(bookEntity);
+        }
         return Optional.ofNullable(bookEntity);
     }
 }

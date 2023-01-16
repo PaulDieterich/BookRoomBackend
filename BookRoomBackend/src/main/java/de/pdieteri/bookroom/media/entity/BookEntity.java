@@ -13,15 +13,14 @@ import java.util.List;
 //@JsonbPropertyOrder({"uuid", "title", "secondtitle", "iban", "format"})
 public class BookEntity {
     @Id
-    @Column(name ="id")
+    @Column(name ="book_id")
     @GeneratedValue
 
     private Long id;
     private String title;
     private String secondtitle;
 
-    @OneToMany(fetch = FetchType.EAGER)
-    @JoinColumn(name = "id")
+    @ManyToMany(mappedBy = "books")
     private List<AuthorEntity> authorsList = new ArrayList<>();
     private String iban;
     private String format;

@@ -6,6 +6,7 @@ import de.pdieteri.bookroom.media.boundary.DTOs.BookResonseDTO;
 import de.pdieteri.bookroom.media.boundary.DTOs.BookUpdateDTO;
 import de.pdieteri.bookroom.media.control.BookManagement;
 ;
+import de.pdieteri.bookroom.media.entity.AuthorEntity;
 import de.pdieteri.bookroom.media.entity.BookEntity;
 import io.quarkus.hal.HalCollectionWrapper;
 import io.quarkus.hal.HalEntityWrapper;
@@ -82,7 +83,6 @@ public class BookResource {
         return entityWrapper;
     }
     @POST
-    @Path("{id}")
     @RestLink(rel = "create")
     @InjectRestLinks
     public HalEntityWrapper create(BookUpdateDTO bookUpdateDTO){
@@ -95,4 +95,16 @@ public class BookResource {
         }
         return entityWrapper;
     }
+
+    @PUT
+    @Path("{id}/borrow")
+    @RestLink(rel = "borrow")
+    @InjectRestLinks
+    public HalEntityWrapper borrow(Long id){
+        Optional<BookEntity> response = bookManagement.borrow(id);
+        HalEntityWrapper entityWrapper = new HalEntityWrapper(response, Link.fromPath("/media/books/"+ response.get().getId()).rel("self").build());
+
+        return entityWrapper;
+    }
+
 }

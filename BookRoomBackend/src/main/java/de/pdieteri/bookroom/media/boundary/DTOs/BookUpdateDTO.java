@@ -9,6 +9,7 @@ public class BookUpdateDTO {
     public String format;
     public String genre;
 
+    BookUpdateDTO(){}
 public BookUpdateDTO(String title, String secondtitle, String iban, String format, String genre) {
         this.title = title;
         this.secondtitle = secondtitle;

@@ -18,20 +18,15 @@ public class BookManger implements BookManagement {
     @Inject
     BookService bookService;
 
-    AuthorEntity a1 = new AuthorEntity(UUID.randomUUID(), "Hans", "Peter");
-    List<AuthorEntity> authors = List.of(a1);
-    BookEntity b1 = new BookEntity(1L,"HarryPotter", "Der Stein der Weisen", authors, "Buch", "gebunden" ,"Fantasy");
-
-    List<BookEntity> books = List.of(b1);
 
     @Override
     public List<BookEntity> getAllBooks() {
-        return books;
+        return bookService.getAll();
     }
 
     @Override
     public BookEntity getById(Long id) {
-        return b1;
+        return bookService.getById(id);
     }
 
     @Override
@@ -47,6 +42,11 @@ public class BookManger implements BookManagement {
     @Override
     public Optional<BookEntity> update(Long id, BookEntity book) {
         return bookService.update(id, book);
+    }
+
+    @Override
+    public Optional<BookEntity> borrow(Long id) {
+        return bookService.borrow(id);
     }
 
 

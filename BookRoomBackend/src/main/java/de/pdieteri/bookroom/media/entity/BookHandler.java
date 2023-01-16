@@ -3,16 +3,20 @@ package de.pdieteri.bookroom.media.entity;
 import de.pdieteri.bookroom.media.gateway.BookRepository;
 import de.pdieteri.bookroom.shared.BookStatus;
 
+import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import java.util.List;
 import java.util.Optional;
 
+
+@ApplicationScoped
 public class BookHandler implements BookService {
 
     @Inject
     BookRepository bookRepository;
 
 
-    public BookEntity getAll(){
+    public List<BookEntity> getAll(){
         return bookRepository.getAll();
     }
 
@@ -31,12 +35,13 @@ public class BookHandler implements BookService {
     }
 
     @Override
-    public Optional<BookEntity> borrow(BookEntity book) {
-       return bookRepository.borrow(book.getId());
+    public Optional<BookEntity> borrow(Long id) {
+        BookEntity book = bookRepository.getById(id);
+        return bookRepository.changeStatus(book, BookStatus.BORROWED);
     }
     @Override
     public Optional<BookEntity> returnBook(BookEntity book) {
-      return bookRepository.ChangeStatus(book, BookStatus.AVAILABLE);
+      return bookRepository.changeStatus(book, BookStatus.AVAILABLE);
     }
 
     @Override
@@ -47,8 +52,8 @@ public class BookHandler implements BookService {
     }
 
     @Override
-    public Optional<BookEntity> ChangeStatus(BookEntity book, BookStatus status) {
-        Optional<BookEntity> bookEntity = bookRepository.ChangeStatus(book, status);
+    public Optional<BookEntity> changeStatus(BookEntity book, BookStatus status) {
+        Optional<BookEntity> bookEntity = bookRepository.changeStatus(book, status);
         return bookEntity;
     }
 

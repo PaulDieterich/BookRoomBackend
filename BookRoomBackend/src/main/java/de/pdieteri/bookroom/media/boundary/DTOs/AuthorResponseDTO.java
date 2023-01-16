@@ -6,11 +6,11 @@ import java.util.UUID;
 
 public class AuthorResponseDTO {
 
-    public UUID uuid;
+    public Long uuid;
     public String firstname;
     public String lastname;
 
-    public AuthorResponseDTO(UUID uuid, String firstname, String lastname) {
+    public AuthorResponseDTO(Long uuid, String firstname, String lastname) {
         this.uuid = uuid;
         this.firstname = firstname;
         this.lastname = lastname;
@@ -18,7 +18,7 @@ public class AuthorResponseDTO {
     public static class Coverter{
         public static AuthorResponseDTO toDTO(AuthorEntity entity){
             return new AuthorResponseDTO(
-              entity.getUuid(),
+              entity.getId(),
               entity.getFirstname(),
                 entity.getLastname()
             );

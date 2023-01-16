@@ -14,4 +14,7 @@ public interface BookManagement {
     public Optional<BookEntity> create(BookEntity book);
 
     Optional<BookEntity> update(Long id, BookEntity book);
+
+    public Optional<BookEntity> borrow(Long id);
+
 }

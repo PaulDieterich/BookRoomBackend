@@ -1,7 +1,7 @@
 package de.pdieteri.bookroom.media.boundary.DTOs;
 
 import de.pdieteri.bookroom.media.entity.BookEntity;
-import de.pdieteri.bookroom.media.shared.BookStatus;
+import de.pdieteri.bookroom.shared.BookStatus;
 
 import javax.json.bind.annotation.JsonbPropertyOrder;
 

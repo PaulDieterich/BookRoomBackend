@@ -40,7 +40,7 @@ public class BookManger implements BookManagement {
     }
 
     @Override
-    public boolean create(BookEntity book) {
+    public Optional<BookEntity> create(BookEntity book) {
         return bookService.create(book);
     }
 

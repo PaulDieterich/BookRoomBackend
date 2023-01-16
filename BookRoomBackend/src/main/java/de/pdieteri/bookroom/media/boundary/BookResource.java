@@ -61,7 +61,7 @@ public class BookResource {
     public HalEntityWrapper getById(Long id){
         BookEntity response = bookManagement.getById(id);
         BookResonseDTO resonseDTO = BookResonseDTO.Converter.toDTO(response);
-        HalEntityWrapper entityWrapper = new HalEntityWrapper(resonseDTO, Link.fromPath("/media/books/"+ id ).rel("self").build());
+        HalEntityWrapper entityWrapper = new HalEntityWrapper(resonseDTO, Link.fromPath("/media/books/"+ response.getId() ).rel("self").build());
         for (AuthorResponseDTO author : resonseDTO.authorsList) {
             entityWrapper.addLinks(Link.fromPath("/media/author/"+ author.uuid ).rel("author").build());
         }
@@ -75,7 +75,21 @@ public class BookResource {
         BookEntity book = BookUpdateDTO.Converter.toEntity(bookUpdateDTO);
         Optional<BookEntity> response = bookManagement.update(id, book);
         BookResonseDTO resonseDTO = BookResonseDTO.Converter.toDTO(response.get());
-        HalEntityWrapper entityWrapper = new HalEntityWrapper(resonseDTO, Link.fromPath("/media/books/"+ id ).rel("self").build());
+        HalEntityWrapper entityWrapper = new HalEntityWrapper(resonseDTO, Link.fromPath("/media/books/"+ response.get().getId() ).rel("self").build());
+        for (AuthorResponseDTO author : resonseDTO.authorsList) {
+            entityWrapper.addLinks(Link.fromPath("/media/author/"+ author.uuid ).rel("author").build());
+        }
+        return entityWrapper;
+    }
+    @POST
+    @Path("{id}")
+    @RestLink(rel = "create")
+    @InjectRestLinks
+    public HalEntityWrapper create(BookUpdateDTO bookUpdateDTO){
+        BookEntity book = BookUpdateDTO.Converter.toEntity(bookUpdateDTO);
+        Optional<BookEntity> bookEntity = bookManagement.create(book);
+        BookResonseDTO resonseDTO = BookResonseDTO.Converter.toDTO(book);
+        HalEntityWrapper entityWrapper = new HalEntityWrapper(resonseDTO, Link.fromPath("/media/books/"+ bookEntity.get().getId()).rel("self").build());
         for (AuthorResponseDTO author : resonseDTO.authorsList) {
             entityWrapper.addLinks(Link.fromPath("/media/author/"+ author.uuid ).rel("author").build());
         }

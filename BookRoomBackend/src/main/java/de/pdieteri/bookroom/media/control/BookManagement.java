@@ -11,7 +11,7 @@ public interface BookManagement {
     public BookEntity getById(Long id);
 
     public BookEntity getByIsbn(String isbn);
-    public boolean create(BookEntity book);
+    public Optional<BookEntity> create(BookEntity book);
 
     Optional<BookEntity> update(Long id, BookEntity book);
 }

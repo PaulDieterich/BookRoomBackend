@@ -1,7 +1,7 @@
 package de.pdieteri.bookroom.media.entity;
 
 
-import de.pdieteri.bookroom.media.shared.BookStatus;
+import de.pdieteri.bookroom.shared.BookStatus;
 
 import javax.persistence.*;
 import java.util.ArrayList;

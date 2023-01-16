@@ -1,6 +1,8 @@
 package de.pdieteri.bookroom.media.entity;
 
 
+import de.pdieteri.bookroom.media.shared.BookStatus;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +27,8 @@ public class BookEntity {
     private String format;
     public String genre;
 
+    public BookStatus status = BookStatus.AVAILABLE;
+
     public BookEntity(){}
 
     public BookEntity(Long id, String title, String secondtitle, List<AuthorEntity> authorsList, String iban, String format, String genre) {
@@ -37,6 +41,13 @@ public class BookEntity {
         this.genre = genre;
     }
 
+    public BookEntity(String title, String secondtitle, String iban, String format, String genre) {
+        this.title = title;
+        this.secondtitle = secondtitle;
+        this.iban = iban;
+        this.format = format;
+        this.genre = genre;
+    }
 
 
     public Long getId() {
@@ -93,5 +104,13 @@ public class BookEntity {
 
     public void setGenre(String genre) {
         this.genre = genre;
+    }
+
+    public BookStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(BookStatus status) {
+        this.status = status;
     }
 }

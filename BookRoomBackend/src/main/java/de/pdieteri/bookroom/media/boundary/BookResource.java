@@ -3,6 +3,7 @@ package de.pdieteri.bookroom.media.boundary;
 
 import de.pdieteri.bookroom.media.boundary.DTOs.AuthorResponseDTO;
 import de.pdieteri.bookroom.media.boundary.DTOs.BookResonseDTO;
+import de.pdieteri.bookroom.media.boundary.DTOs.BookUpdateDTO;
 import de.pdieteri.bookroom.media.control.BookManagement;
 ;
 import de.pdieteri.bookroom.media.entity.BookEntity;
@@ -18,15 +19,13 @@ import org.jboss.resteasy.reactive.common.util.RestMediaType;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.Link;
 import javax.ws.rs.core.MediaType;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 
@@ -60,7 +59,7 @@ public class BookResource {
     @RestLink(rel = "self")
     @InjectRestLinks
     public HalEntityWrapper getById(Long id){
-        BookEntity response = bookManagement.getBookById(id);
+        BookEntity response = bookManagement.getById(id);
         BookResonseDTO resonseDTO = BookResonseDTO.Converter.toDTO(response);
         HalEntityWrapper entityWrapper = new HalEntityWrapper(resonseDTO, Link.fromPath("/media/books/"+ id ).rel("self").build());
         for (AuthorResponseDTO author : resonseDTO.authorsList) {
@@ -68,5 +67,18 @@ public class BookResource {
         }
         return entityWrapper;
     }
-
+    @PUT
+    @Path("{id}")
+    @RestLink(rel = "update")
+    @InjectRestLinks
+    public HalEntityWrapper update(Long id, BookUpdateDTO bookUpdateDTO){
+        BookEntity book = BookUpdateDTO.Converter.toEntity(bookUpdateDTO);
+        Optional<BookEntity> response = bookManagement.update(id, book);
+        BookResonseDTO resonseDTO = BookResonseDTO.Converter.toDTO(response.get());
+        HalEntityWrapper entityWrapper = new HalEntityWrapper(resonseDTO, Link.fromPath("/media/books/"+ id ).rel("self").build());
+        for (AuthorResponseDTO author : resonseDTO.authorsList) {
+            entityWrapper.addLinks(Link.fromPath("/media/author/"+ author.uuid ).rel("author").build());
+        }
+        return entityWrapper;
+    }
 }

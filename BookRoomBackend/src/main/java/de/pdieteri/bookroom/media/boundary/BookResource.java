@@ -45,10 +45,11 @@ public class BookResource {
     @RestLink(rel = "list")
 
     @InjectRestLinks
-    public HalCollectionWrapper getAllBooks(){
+    public HalCollectionWrapper getAll(){
         List<BookEntity> response = bookManagement.getAllBooks();
         Collection<BookResonseDTO> resonseList = response.stream().map(BookResonseDTO.Converter::toDTO).collect(Collectors.toList());
         Collection<HalEntityWrapper> halWrapperList = resonseList.stream().map(HalEntityWrapper::new).collect(Collectors.toList());
+        halWrapperList.stream().forEach(halEntityWrapper -> halEntityWrapper.addLinks(Link.fromUri("/media/books").rel("list").build()));
         HalCollectionWrapper collectionWrapper = new  HalCollectionWrapper(halWrapperList, "books",Link.fromPath("/media/books/").rel("self").build() );
         collectionWrapper.addLinks(Link.fromPath("/media/books/1").rel("first-entry").build());
         return collectionWrapper;
@@ -58,7 +59,7 @@ public class BookResource {
     @Path("{id}")
     @RestLink(rel = "self")
     @InjectRestLinks
-    public HalEntityWrapper getBookById(Long id){
+    public HalEntityWrapper getById(Long id){
         BookEntity response = bookManagement.getBookById(id);
         BookResonseDTO resonseDTO = BookResonseDTO.Converter.toDTO(response);
         HalEntityWrapper entityWrapper = new HalEntityWrapper(resonseDTO, Link.fromPath("/media/books/"+ id ).rel("self").build());
@@ -67,4 +68,5 @@ public class BookResource {
         }
         return entityWrapper;
     }
+
 }

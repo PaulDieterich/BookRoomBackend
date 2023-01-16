@@ -22,53 +22,12 @@ The application can be packaged using:
 ./mvnw package
 ```
 
-It produces the `quarkus-run.jar` file in the `target/quarkus-app/` directory.
-Be aware that it’s not an _über-jar_ as the dependencies are copied into the `target/quarkus-app/lib/` directory.
+## This is a project to Lern Quarkus Reactive 
 
-The application is now runnable using `java -jar target/quarkus-app/quarkus-run.jar`.
+The Goal of this Project is to Create a opensource Library Level 3 REST-Backend in Java with the Quarkus Framework.
+Using Resteasy Reactive with JSON+Hal Objects.
 
-If you want to build an _über-jar_, execute the following command:
 
-```shell script
-./mvnw package -Dquarkus.package.type=uber-jar
-```
 
-The application, packaged as an _über-jar_, is now runnable using `java -jar target/*-runner.jar`.
 
-## Creating a native executable
 
-You can create a native executable using:
-
-```shell script
-./mvnw package -Pnative
-```
-
-Or, if you don't have GraalVM installed, you can run the native executable build in a container using:
-
-```shell script
-./mvnw package -Pnative -Dquarkus.native.container-build=true
-```
-
-You can then execute your native executable with: `./target/bookroombackend-1.0-SNAPSHOT-runner`
-
-If you want to learn more about building native executables, please consult https://quarkus.io/guides/maven-tooling.
-
-## Related Guides
-
-- Mutiny ([guide](https://quarkus.io/guides/mutiny-primer)): Write reactive applications with the modern Reactive
-  Programming library Mutiny
-- RESTEasy Reactive ([guide](https://quarkus.io/guides/resteasy-reactive)): A JAX-RS implementation utilizing build time
-  processing and Vert.x. This extension is not compatible with the quarkus-resteasy extension, or any of the extensions
-  that depend on it.
-- RESTEasy Reactive Links ([guide](https://quarkus.io/guides/resteasy-reactive#web-links-support)): Web Links support
-  for RESTEasy Reactive. Inject web links into response HTTP headers by annotating your endpoint resources.
-- Reactive PostgreSQL client ([guide](https://quarkus.io/guides/reactive-sql-clients)): Connect to the PostgreSQL
-  database using the reactive pattern
-
-## Provided Code
-
-### RESTEasy Reactive
-
-Easily start your Reactive RESTful Web Services
-
-[Related guide section...](https://quarkus.io/guides/getting-started-reactive#reactive-jax-rs-resources)
